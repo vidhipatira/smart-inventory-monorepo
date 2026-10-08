@@ -1,0 +1,29 @@
+name: Build and Test .NET API
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore ./apps/backend-dotnet-api/BackendApi
+
+    - name: Build project
+      run: dotnet build ./apps/backend-dotnet-api/BackendApi --no-restore
+
+    - name: Run tests (if you add tests later)
+      run: dotnet test --no-build --verbosity normal
