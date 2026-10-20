@@ -1,0 +1,34 @@
+<h2>Inventory</h2>
+
+<form #form="ngForm" (ngSubmit)="addItem()">
+
+  <input [(ngModel)]="newItem.name" name="name" placeholder="Item Name">
+
+  <input [(ngModel)]="newItem.quantity" name="quantity" placeholder="Quantity" type="number">
+
+  <!-- ⭐ Add this new field -->
+  <input [(ngModel)]="newItem.price" name="price" placeholder="Price" type="number">
+
+  <button type="submit">Add Item</button>
+</form>
+
+<ul>
+  <li *ngFor="let item of items">
+    {{ item.name }} — {{ item.quantity }} — {{ item.price }}
+
+     <!-- ⭐ Add delete button here -->
+    <button (click)="startEdit(item)">Edit</button>
+    <button (click)="deleteItem(item.id)">Delete</button>
+  </li>
+</ul>
+
+<!-- ⭐ Edit form appears only when editingItem is set -->
+<div *ngIf="editingItem">
+  <h3>Edit Item</h3>
+
+  <input [(ngModel)]="editingItem.name" placeholder="Name">
+  <input [(ngModel)]="editingItem.quantity" type="number" placeholder="Quantity">
+  <input [(ngModel)]="editingItem.price" type="number" placeholder="Price">
+
+  <button (click)="saveEdit()">Save</button>
+</div>

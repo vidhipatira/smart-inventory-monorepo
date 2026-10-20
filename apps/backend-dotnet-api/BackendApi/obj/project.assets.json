@@ -2628,11 +2628,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vidhi\\Downloads\\smart-inventory-monorepo\\apps\\backend-dotnet-api\\BackendApi\\BackendApi.csproj",
+      "projectUniqueName": "C:\\Projects\\smart-inventory-monorepo\\apps\\backend-dotnet-api\\BackendApi\\BackendApi.csproj",
       "projectName": "BackendApi",
-      "projectPath": "C:\\Users\\vidhi\\Downloads\\smart-inventory-monorepo\\apps\\backend-dotnet-api\\BackendApi\\BackendApi.csproj",
+      "projectPath": "C:\\Projects\\smart-inventory-monorepo\\apps\\backend-dotnet-api\\BackendApi\\BackendApi.csproj",
       "packagesPath": "C:\\Users\\vidhi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vidhi\\Downloads\\smart-inventory-monorepo\\apps\\backend-dotnet-api\\BackendApi\\obj\\",
+      "outputPath": "C:\\Projects\\smart-inventory-monorepo\\apps\\backend-dotnet-api\\BackendApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
