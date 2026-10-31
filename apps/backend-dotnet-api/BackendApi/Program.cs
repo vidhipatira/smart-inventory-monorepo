@@ -10,7 +10,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ⭐ ADD THIS — CORS POLICY ⭐
+// ⭐ CORS POLICY ⭐
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -31,9 +31,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// ⭐ ADD THIS — ENABLE CORS ⭐
+// ⭐ ENABLE CORS ⭐
 app.UseCors("AllowAll");
 
 app.MapControllers();
+
+// ⭐ APPLY EF MIGRATIONS BEFORE app.Run() ⭐
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
 
 app.Run();
