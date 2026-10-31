@@ -1,0 +1,61 @@
+name: CI/CD - Smart Inventory
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Login to Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Build Frontend Docker Image
+      - name: Build Frontend Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/smartinventory-frontend:latest -f apps/frontend-angular-nx/Dockerfile .
+
+      - name: Push Frontend Image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/smartinventory-frontend:latest
+
+      # Build Backend Docker Image
+      - name: Build Backend Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/smartinventory-backend:latest -f apps/backend-dotnet-api/Dockerfile .
+
+      - name: Push Backend Image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/smartinventory-backend:latest
+
+      # Deploy to Azure Container Apps
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy Frontend to Azure Container Apps
+        run: |
+          az containerapp update \
+            --name ${{ secrets.AZURE_FRONTEND_APP_NAME }} \
+            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+            --image ${{ secrets.DOCKER_USERNAME }}/smartinventory-frontend:latest
+
+      - name: Deploy Backend to Azure Container Apps
+        run: |
+          az containerapp update \
+            --name ${{ secrets.AZURE_BACKEND_APP_NAME }} \
+            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+            --image ${{ secrets.DOCKER_USERNAME }}/smartinventory-backend:latest
