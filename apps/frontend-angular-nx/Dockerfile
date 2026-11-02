@@ -3,7 +3,8 @@ FROM node:22 AS build
 
 WORKDIR /app
 
-COPY apps/frontend-angular-nx/ .
+# Copy everything from the build context (apps/frontend-angular-nx)
+COPY . .
 
 RUN npm install
 
