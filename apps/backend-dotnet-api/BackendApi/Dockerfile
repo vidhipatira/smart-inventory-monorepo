@@ -7,8 +7,9 @@ WORKDIR /src
 COPY . .
 
 # Restore and publish the project
-RUN dotnet restore BackendApi/BackendApi.csproj
-RUN dotnet publish BackendApi/BackendApi.csproj -c Release -o /app/publish
+RUN dotnet restore apps/backend-dotnet-api/BackendApi/BackendApi.csproj
+RUN dotnet publish apps/backend-dotnet-api/BackendApi/BackendApi.csproj -c Release -o /app/publish
+
 
 
 # Stage 2: Runtime
